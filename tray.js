@@ -2,7 +2,9 @@
 const path = require('path');
 const electron = require('electron');
 
-const {app} = electron;
+const {
+	app
+} = electron;
 let tray = null;
 
 exports.create = win => {
@@ -20,20 +22,18 @@ exports.create = win => {
 		}
 	};
 
-	const contextMenu = electron.Menu.buildFromTemplate([
-		{
-			label: 'Toggle',
-			click() {
+	const contextMenu = electron.Menu.buildFromTemplate([{
+		label: 'Toggle',
+		click() {
 				toggleWin();
-			}
-		},
-		{
-			type: 'separator'
-		},
-		{
-			role: 'quit'
 		}
-	]);
+	},
+	{
+		type: 'separator'
+	},
+	{
+		role: 'quit'
+	}]);
 
 	tray = new electron.Tray(iconPath);
 	tray.setToolTip(`${app.getName()}`);

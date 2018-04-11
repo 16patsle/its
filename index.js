@@ -1,21 +1,27 @@
 'use strict';
 const path = require('path');
 const fs = require('fs');
-const URL = require('url').URL;
 const electron = require('electron');
 // -const electronLocalShortcut = require('electron-localshortcut');
 const log = require('electron-log');
-const {autoUpdater} = require('electron-updater');
+const {
+	autoUpdater
+} = require('electron-updater');
 const isDev = require('electron-is-dev');
 const appMenu = require('./menu');
 const config = require('./config');
 const tray = require('./tray');
 
-require('electron-debug')({enabled: true});
+require('electron-debug')({
+	enabled: true
+});
 require('electron-dl')();
 require('electron-context-menu')();
 
-const {app, ipcMain, Menu} = electron;
+const {
+	app,
+	ipcMain
+} = electron;
 
 app.setAppUserModelId('com.patricksletvold.its');
 app.disableHardwareAcceleration();
@@ -46,7 +52,6 @@ if (isAlreadyRunning) {
 }
 
 function updateBadge(messageCount) {
-
 	if (process.platform === 'darwin' || process.platform === 'linux') {
 		if (config.get('showUnreadBadge')) {
 			app.setBadgeCount(messageCount);
@@ -89,7 +94,6 @@ ipcMain.on('update-overlay-icon', (event, data, text) => {
 function createMainWindow() {
 	const lastWindowState = config.get('lastWindowState');
 	const mainURL = 'https://www.itslearning.com/welcome.aspx';
-	const titlePrefix = 'its';
 
 	const win = new electron.BrowserWindow({
 		title: app.getName(),
@@ -154,7 +158,9 @@ app.on('ready', () => {
 		app.dock.setMenu(dockMenu);
 	}
 
-	const {webContents} = mainWindow;
+	const {
+		webContents
+	} = mainWindow;
 
 	webContents.on('dom-ready', () => {
 		webContents.insertCSS(fs.readFileSync(path.join(__dirname, 'browser.css'), 'utf8'));
@@ -164,15 +170,14 @@ app.on('ready', () => {
 		} else {
 			mainWindow.show();
 		}
-
 	});
 
-	webContents.on('new-window', (event, url, frameName, disposition, options) => {
-		//event.preventDefault();
+	webContents.on('new-window', (event, url) => {
+		// Event.preventDefault();
 
-		//electron.shell.openExternal(url);
-		event.preventDefault()
-  	const win = new electron.BrowserWindow({
+		// electron.shell.openExternal(url);
+		event.preventDefault();
+		const win = new electron.BrowserWindow({
 			title: app.getName(),
 			show: true,
 			webPreferences: {
@@ -181,9 +186,9 @@ app.on('ready', () => {
 				plugins: true
 			},
 			backgroundColor: '#ffffff'
-		})
-  	win.loadURL(url)
-  	event.newGuest = win
+		});
+		win.loadURL(url);
+		event.newGuest = win;
 	});
 });
 
