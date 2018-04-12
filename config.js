@@ -13,5 +13,6 @@ module.exports = new Store({
     launchMinimized: false,
     flashWindowOnMessage: true,
     autoHideMenuBar: false,
+    lastSelectedSite: ''
   }
 });

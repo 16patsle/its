@@ -95,7 +95,9 @@ ipcMain.on('update-overlay-icon', (event, data, text) => {
 
 function createMainWindow() {
   const lastWindowState = config.get('lastWindowState');
-  const mainURL = 'https://www.itslearning.com/welcome.aspx';
+  const mainURL =
+    config.get('lastSelectedSite') ||
+    'https://www.itslearning.com/welcome.aspx';
 
   const win = new electron.BrowserWindow({
     title: app.getName(),
@@ -171,6 +173,15 @@ app.on('ready', () => {
       mainWindow.hide();
     } else {
       mainWindow.show();
+    }
+
+    const urlRegex = /(?=^https:\/\/(.+)\.itslearning\.com)(?!^https:\/\/www\.itslearning\.com)/;
+    const siteUrlMatch = urlRegex.exec(webContents.getURL());
+    if (siteUrlMatch) {
+      config.set(
+        'lastSelectedSite',
+        `https://${siteUrlMatch[1]}.itslearning.com`
+      );
     }
   });
 
