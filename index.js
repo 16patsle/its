@@ -13,7 +13,8 @@ const tray = require('./tray');
 require('electron-debug')({
   enabled: true
 });
-require('electron-dl')();
+const electronDl = require('electron-dl');
+electronDl({ saveAs: true });
 require('electron-context-menu')();
 
 const {app, ipcMain} = electron;
@@ -186,22 +187,32 @@ app.on('ready', () => {
   });
 
   webContents.on('new-window', (event, url) => {
-    // Event.preventDefault();
-
-    // electron.shell.openExternal(url);
     event.preventDefault();
-    const win = new electron.BrowserWindow({
-      title: app.getName(),
-      show: true,
-      webPreferences: {
-        preload: path.join(__dirname, 'browser.js'),
-        nodeIntegration: false,
-        plugins: true
-      },
-      backgroundColor: '#ffffff'
-    });
-    win.loadURL(url);
-    event.newGuest = win;
+    if (
+      url.indexOf('itslearning.com/File') !== -1 ||
+      url.indexOf('itslearning.com/ContentArea') !== -1
+    ) {
+      webContents.loadURL(url);
+    } else if (url.indexOf('itslearning.com/file/download') !== -1) {
+      electronDl.download(electron.BrowserWindow.getFocusedWindow(), url, {
+        saveAs: true
+      });
+      /*} else if (false){
+      electron.shell.openExternal(url);*/
+    } else {
+      const win = new electron.BrowserWindow({
+        title: app.getName(),
+        show: true,
+        webPreferences: {
+          preload: path.join(__dirname, 'browser.js'),
+          nodeIntegration: false,
+          plugins: true
+        },
+        backgroundColor: '#ffffff'
+      });
+      win.loadURL(url);
+      event.newGuest = win;
+    }
   });
 });
 
