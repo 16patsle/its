@@ -43,7 +43,8 @@
     "prettier": true
   },
   "prettier": {
-    "singleQuote": true
+    "singleQuote": true,
+    "trailingComma": "none"
   },
   "build": {
     "files": [
