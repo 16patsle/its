@@ -1,29 +1,29 @@
-"use strict";
-const path = require("path");
-const fs = require("fs");
-const electron = require("electron");
+'use strict';
+const path = require('path');
+const fs = require('fs');
+const electron = require('electron');
 // -const electronLocalShortcut = require('electron-localshortcut');
-const log = require("electron-log");
-const {autoUpdater} = require("electron-updater");
-const isDev = require("electron-is-dev");
-const appMenu = require("./menu");
-const config = require("./config");
-const tray = require("./tray");
+const log = require('electron-log');
+const {autoUpdater} = require('electron-updater');
+const isDev = require('electron-is-dev');
+const appMenu = require('./menu');
+const config = require('./config');
+const tray = require('./tray');
 
-require("electron-debug")({
-  enabled: true
+require('electron-debug')({
+  enabled: true,
 });
-require("electron-dl")();
-require("electron-context-menu")();
+require('electron-dl')();
+require('electron-context-menu')();
 
 const {app, ipcMain} = electron;
 
-app.setAppUserModelId("com.patricksletvold.its");
+app.setAppUserModelId('com.patricksletvold.its');
 app.disableHardwareAcceleration();
 
 if (!isDev) {
   autoUpdater.logger = log;
-  autoUpdater.logger.transports.file.level = "info";
+  autoUpdater.logger.transports.file.level = 'info';
   autoUpdater.checkForUpdates();
 }
 
@@ -47,55 +47,55 @@ if (isAlreadyRunning) {
 }
 
 function updateBadge(messageCount) {
-  if (process.platform === "darwin" || process.platform === "linux") {
-    if (config.get("showUnreadBadge")) {
+  if (process.platform === 'darwin' || process.platform === 'linux') {
+    if (config.get('showUnreadBadge')) {
       app.setBadgeCount(messageCount);
     }
     if (
-      process.platform === "darwin" &&
-      config.get("bounceDockOnMessage") &&
+      process.platform === 'darwin' &&
+      config.get('bounceDockOnMessage') &&
       prevMessageCount !== messageCount
     ) {
-      app.dock.bounce("informational");
+      app.dock.bounce('informational');
       prevMessageCount = messageCount;
     }
   }
 
   if (
-    (process.platform === "linux" || process.platform === "win32") &&
-    config.get("showUnreadBadge")
+    (process.platform === 'linux' || process.platform === 'win32') &&
+    config.get('showUnreadBadge')
   ) {
     tray.setBadge(messageCount);
   }
 
-  if (process.platform === "win32") {
-    if (config.get("showUnreadBadge")) {
+  if (process.platform === 'win32') {
+    if (config.get('showUnreadBadge')) {
       if (messageCount === 0) {
-        mainWindow.setOverlayIcon(null, "");
+        mainWindow.setOverlayIcon(null, '');
       } else {
         // Delegate drawing of overlay icon to renderer process
-        mainWindow.webContents.send("render-overlay-icon", messageCount);
+        mainWindow.webContents.send('render-overlay-icon', messageCount);
       }
     }
 
-    if (config.get("flashWindowOnMessage")) {
+    if (config.get('flashWindowOnMessage')) {
       mainWindow.flashFrame(messageCount !== 0);
     }
   }
 }
 
-ipcMain.on("update-notification-badge", (event, messageCount) => {
+ipcMain.on('update-notification-badge', (event, messageCount) => {
   updateBadge(messageCount);
 });
 
-ipcMain.on("update-overlay-icon", (event, data, text) => {
+ipcMain.on('update-overlay-icon', (event, data, text) => {
   const img = electron.nativeImage.createFromDataURL(data);
   mainWindow.setOverlayIcon(img, text);
 });
 
 function createMainWindow() {
-  const lastWindowState = config.get("lastWindowState");
-  const mainURL = "https://www.itslearning.com/welcome.aspx";
+  const lastWindowState = config.get('lastWindowState');
+  const mainURL = 'https://www.itslearning.com/welcome.aspx';
 
   const win = new electron.BrowserWindow({
     title: app.getName(),
@@ -105,35 +105,35 @@ function createMainWindow() {
     width: lastWindowState.width,
     height: lastWindowState.height,
     icon:
-      process.platform === "linux" && path.join(__dirname, "static/Icon.png"),
+      process.platform === 'linux' && path.join(__dirname, 'static/Icon.png'),
     minWidth: 400,
     minHeight: 200,
-    alwaysOnTop: config.get("alwaysOnTop"),
+    alwaysOnTop: config.get('alwaysOnTop'),
     // Temp workaround for macOS High Sierra, see #295
-    titleBarStyle: "hidden-inset",
-    autoHideMenuBar: config.get("autoHideMenuBar"),
+    titleBarStyle: 'hidden-inset',
+    autoHideMenuBar: config.get('autoHideMenuBar'),
     webPreferences: {
-      preload: path.join(__dirname, "browser.js"),
+      preload: path.join(__dirname, 'browser.js'),
       nodeIntegration: false,
-      plugins: true
+      plugins: true,
     },
-    backgroundColor: "#f2f2f2"
+    backgroundColor: '#f2f2f2',
   });
 
-  if (process.platform === "darwin") {
+  if (process.platform === 'darwin') {
     win.setSheetOffset(40);
   }
 
   win.loadURL(mainURL);
 
-  win.on("close", e => {
+  win.on('close', e => {
     if (!isQuitting) {
       e.preventDefault();
 
       // Workaround for electron/electron#10023
       win.blur();
 
-      if (process.platform === "darwin") {
+      if (process.platform === 'darwin') {
         app.hide();
       } else {
         win.hide();
@@ -141,8 +141,8 @@ function createMainWindow() {
     }
   });
 
-  win.on("focus", () => {
-    if (config.get("flashWindowOnMessage")) {
+  win.on('focus', () => {
+    if (config.get('flashWindowOnMessage')) {
       // This is a security in the case where messageCount is not reset by page title update
       win.flashFrame(false);
     }
@@ -151,31 +151,31 @@ function createMainWindow() {
   return win;
 }
 
-app.on("ready", () => {
+app.on('ready', () => {
   electron.Menu.setApplicationMenu(appMenu);
   mainWindow = createMainWindow();
   tray.create(mainWindow);
 
-  if (process.platform === "darwin") {
+  if (process.platform === 'darwin') {
     dockMenu = electron.Menu.buildFromTemplate([]);
     app.dock.setMenu(dockMenu);
   }
 
   const {webContents} = mainWindow;
 
-  webContents.on("dom-ready", () => {
+  webContents.on('dom-ready', () => {
     webContents.insertCSS(
-      fs.readFileSync(path.join(__dirname, "browser.css"), "utf8")
+      fs.readFileSync(path.join(__dirname, 'browser.css'), 'utf8')
     );
 
-    if (config.get("launchMinimized")) {
+    if (config.get('launchMinimized')) {
       mainWindow.hide();
     } else {
       mainWindow.show();
     }
   });
 
-  webContents.on("new-window", (event, url) => {
+  webContents.on('new-window', (event, url) => {
     // Event.preventDefault();
 
     // electron.shell.openExternal(url);
@@ -184,25 +184,25 @@ app.on("ready", () => {
       title: app.getName(),
       show: true,
       webPreferences: {
-        preload: path.join(__dirname, "browser.js"),
+        preload: path.join(__dirname, 'browser.js'),
         nodeIntegration: false,
-        plugins: true
+        plugins: true,
       },
-      backgroundColor: "#ffffff"
+      backgroundColor: '#ffffff',
     });
     win.loadURL(url);
     event.newGuest = win;
   });
 });
 
-app.on("activate", () => {
+app.on('activate', () => {
   mainWindow.show();
 });
 
-app.on("before-quit", () => {
+app.on('before-quit', () => {
   isQuitting = true;
 
   if (!mainWindow.isFullScreen()) {
-    config.set("lastWindowState", mainWindow.getBounds());
+    config.set('lastWindowState', mainWindow.getBounds());
   }
 });

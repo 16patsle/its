@@ -1,8 +1,8 @@
-"use strict";
-const os = require("os");
-const path = require("path");
-const electron = require("electron");
-const config = require("./config");
+'use strict';
+const os = require('os');
+const path = require('path');
+const electron = require('electron');
+const config = require('./config');
 
 const {app, BrowserWindow, shell} = electron;
 const appName = app.getName();
@@ -10,7 +10,7 @@ const appName = app.getName();
 function sendAction(action) {
   const [win] = BrowserWindow.getAllWindows();
 
-  if (process.platform === "darwin") {
+  if (process.platform === 'darwin') {
     win.restore();
   }
 
@@ -19,25 +19,25 @@ function sendAction(action) {
 
 const viewSubmenu = [
   {
-    type: "separator"
-  }
+    type: 'separator',
+  },
 ];
 
 const helpSubmenu = [
   {
     label: `Website`,
     click() {
-      shell.openExternal("https://github.com/16patsle/its");
-    }
+      shell.openExternal('https://github.com/16patsle/its');
+    },
   },
   {
     label: `Source Code`,
     click() {
-      shell.openExternal("https://github.com/16patsle/its");
-    }
+      shell.openExternal('https://github.com/16patsle/its');
+    },
   },
   {
-    label: "Report an Issue…",
+    label: 'Report an Issue…',
     click() {
       const body = `
 <!-- Please succinctly describe your issue and steps to reproduce it. -->
@@ -54,41 +54,41 @@ ${process.platform} ${process.arch} ${os.release()}`;
           body
         )}`
       );
-    }
-  }
+    },
+  },
 ];
 
-if (process.platform !== "darwin") {
+if (process.platform !== 'darwin') {
   helpSubmenu.push(
     {
-      type: "separator"
+      type: 'separator',
     },
     {
-      role: "about",
+      role: 'about',
       click() {
         electron.dialog.showMessageBox({
           title: `About ${appName}`,
           message: `${appName} ${app.getVersion()}`,
-          detail: "Created by Patrick Sletvold",
-          icon: path.join(__dirname, "static/Icon.png")
+          detail: 'Created by Patrick Sletvold',
+          icon: path.join(__dirname, 'static/Icon.png'),
         });
-      }
+      },
     }
   );
 
   viewSubmenu.push(
     {
-      type: "separator"
+      type: 'separator',
     },
     {
-      type: "checkbox",
-      label: "Always on Top",
-      accelerator: "Ctrl+Shift+T",
-      checked: config.get("alwaysOnTop"),
+      type: 'checkbox',
+      label: 'Always on Top',
+      accelerator: 'Ctrl+Shift+T',
+      checked: config.get('alwaysOnTop'),
       click(item, focusedWindow) {
-        config.set("alwaysOnTop", item.checked);
+        config.set('alwaysOnTop', item.checked);
         focusedWindow.setAlwaysOnTop(item.checked);
-      }
+      },
     }
   );
 }
@@ -98,217 +98,217 @@ const macosTpl = [
     label: appName,
     submenu: [
       {
-        role: "about"
+        role: 'about',
       },
       {
-        type: "separator"
+        type: 'separator',
       },
       {
-        label: "Bounce Dock on Message",
-        type: "checkbox",
-        checked: config.get("bounceDockOnMessage"),
+        label: 'Bounce Dock on Message',
+        type: 'checkbox',
+        checked: config.get('bounceDockOnMessage'),
         click() {
-          config.set("bounceDockOnMessage", !config.get("bounceDockOnMessage"));
-        }
+          config.set('bounceDockOnMessage', !config.get('bounceDockOnMessage'));
+        },
       },
       {
-        label: "Show Unread Badge",
-        type: "checkbox",
-        checked: config.get("showUnreadBadge"),
+        label: 'Show Unread Badge',
+        type: 'checkbox',
+        checked: config.get('showUnreadBadge'),
         click() {
-          config.set("showUnreadBadge", !config.get("showUnreadBadge"));
-        }
+          config.set('showUnreadBadge', !config.get('showUnreadBadge'));
+        },
       },
       {
-        type: "separator"
+        type: 'separator',
       },
       {
-        label: "Log Out",
+        label: 'Log Out',
         click() {
-          sendAction("log-out");
-        }
+          sendAction('log-out');
+        },
       },
       {
-        type: "separator"
+        type: 'separator',
       },
       {
-        role: "services",
-        submenu: []
+        role: 'services',
+        submenu: [],
       },
       {
-        type: "separator"
+        type: 'separator',
       },
       {
-        role: "hide"
+        role: 'hide',
       },
       {
-        role: "hideothers"
+        role: 'hideothers',
       },
       {
-        role: "unhide"
+        role: 'unhide',
       },
       {
-        type: "separator"
+        type: 'separator',
       },
       {
-        role: "quit"
-      }
-    ]
+        role: 'quit',
+      },
+    ],
   },
   {
-    label: "File",
-    submenu: []
+    label: 'File',
+    submenu: [],
   },
   {
-    role: "editMenu"
+    role: 'editMenu',
   },
   {
-    label: "View",
-    submenu: viewSubmenu
+    label: 'View',
+    submenu: viewSubmenu,
   },
   {
-    role: "window",
+    role: 'window',
     submenu: [
       {
-        role: "minimize"
+        role: 'minimize',
       },
       {
-        role: "close"
+        role: 'close',
       },
       {
-        type: "separator"
+        type: 'separator',
       },
       {
-        type: "separator"
+        type: 'separator',
       },
       {
-        role: "front"
+        role: 'front',
       },
       {
-        role: "togglefullscreen"
+        role: 'togglefullscreen',
       },
       {
-        type: "separator"
+        type: 'separator',
       },
       {
-        type: "checkbox",
-        label: "Always on Top",
-        accelerator: "Cmd+Shift+T",
-        checked: config.get("alwaysOnTop"),
+        type: 'checkbox',
+        label: 'Always on Top',
+        accelerator: 'Cmd+Shift+T',
+        checked: config.get('alwaysOnTop'),
         click(item, focusedWindow) {
-          config.set("alwaysOnTop", item.checked);
+          config.set('alwaysOnTop', item.checked);
           focusedWindow.setAlwaysOnTop(item.checked);
-        }
-      }
-    ]
+        },
+      },
+    ],
   },
   {
-    role: "help",
-    submenu: helpSubmenu
-  }
+    role: 'help',
+    submenu: helpSubmenu,
+  },
 ];
 
 const otherTpl = [
   {
-    label: "File",
+    label: 'File',
     submenu: [
       {
-        type: "checkbox",
-        label: "Flash Window on Message",
-        visible: process.platform === "win32",
-        checked: config.get("flashWindowOnMessage"),
+        type: 'checkbox',
+        label: 'Flash Window on Message',
+        visible: process.platform === 'win32',
+        checked: config.get('flashWindowOnMessage'),
         click(item) {
-          config.set("flashWindowOnMessage", item.checked);
-        }
+          config.set('flashWindowOnMessage', item.checked);
+        },
       },
       {
-        label: "Show Unread Badge",
-        type: "checkbox",
-        checked: config.get("showUnreadBadge"),
+        label: 'Show Unread Badge',
+        type: 'checkbox',
+        checked: config.get('showUnreadBadge'),
         click() {
-          config.set("showUnreadBadge", !config.get("showUnreadBadge"));
-        }
+          config.set('showUnreadBadge', !config.get('showUnreadBadge'));
+        },
       },
       {
-        label: "Launch Minimized",
-        type: "checkbox",
-        checked: config.get("launchMinimized"),
+        label: 'Launch Minimized',
+        type: 'checkbox',
+        checked: config.get('launchMinimized'),
         click() {
-          config.set("launchMinimized", !config.get("launchMinimized"));
-        }
+          config.set('launchMinimized', !config.get('launchMinimized'));
+        },
       },
       {
-        type: "checkbox",
-        label: "Auto Hide Menu Bar",
-        checked: config.get("autoHideMenuBar"),
+        type: 'checkbox',
+        label: 'Auto Hide Menu Bar',
+        checked: config.get('autoHideMenuBar'),
         click(item, focusedWindow) {
-          config.set("autoHideMenuBar", item.checked);
+          config.set('autoHideMenuBar', item.checked);
           focusedWindow.setAutoHideMenuBar(item.checked);
           focusedWindow.setMenuBarVisibility(!item.checked);
-        }
+        },
       },
       {
-        type: "separator"
+        type: 'separator',
       },
       {
-        label: "Log Out",
+        label: 'Log Out',
         click() {
-          sendAction("log-out");
-        }
+          sendAction('log-out');
+        },
       },
       {
-        type: "separator"
+        type: 'separator',
       },
       {
-        role: "quit"
-      }
-    ]
+        role: 'quit',
+      },
+    ],
   },
   {
-    label: "Edit",
+    label: 'Edit',
     submenu: [
       {
-        role: "undo"
+        role: 'undo',
       },
       {
-        role: "redo"
+        role: 'redo',
       },
       {
-        type: "separator"
+        type: 'separator',
       },
       {
-        role: "cut"
+        role: 'cut',
       },
       {
-        role: "copy"
+        role: 'copy',
       },
       {
-        role: "paste"
+        role: 'paste',
       },
       {
-        role: "delete"
+        role: 'delete',
       },
       {
-        type: "separator"
+        type: 'separator',
       },
       {
-        role: "selectall"
+        role: 'selectall',
       },
       {
-        type: "separator"
-      }
-    ]
+        type: 'separator',
+      },
+    ],
   },
   {
-    label: "View",
-    submenu: viewSubmenu
+    label: 'View',
+    submenu: viewSubmenu,
   },
   {
-    role: "help",
-    submenu: helpSubmenu
-  }
+    role: 'help',
+    submenu: helpSubmenu,
+  },
 ];
 
-const tpl = process.platform === "darwin" ? macosTpl : otherTpl;
+const tpl = process.platform === 'darwin' ? macosTpl : otherTpl;
 
 module.exports = electron.Menu.buildFromTemplate(tpl);

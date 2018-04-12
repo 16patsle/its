@@ -1,16 +1,16 @@
-"use strict";
-const path = require("path");
-const electron = require("electron");
+'use strict';
+const path = require('path');
+const electron = require('electron');
 
 const {app} = electron;
 let tray = null;
 
 exports.create = win => {
-  if (process.platform === "darwin" || tray) {
+  if (process.platform === 'darwin' || tray) {
     return;
   }
 
-  const iconPath = path.join(__dirname, "static/IconTray.png");
+  const iconPath = path.join(__dirname, 'static/IconTray.png');
 
   const toggleWin = () => {
     if (win.isVisible()) {
@@ -22,31 +22,31 @@ exports.create = win => {
 
   const contextMenu = electron.Menu.buildFromTemplate([
     {
-      label: "Toggle",
+      label: 'Toggle',
       click() {
         toggleWin();
-      }
+      },
     },
     {
-      type: "separator"
+      type: 'separator',
     },
     {
-      role: "quit"
-    }
+      role: 'quit',
+    },
   ]);
 
   tray = new electron.Tray(iconPath);
   tray.setToolTip(`${app.getName()}`);
   tray.setContextMenu(contextMenu);
-  tray.on("click", toggleWin);
+  tray.on('click', toggleWin);
 };
 
 exports.setBadge = shouldDisplayUnread => {
-  if (process.platform === "darwin" || !tray) {
+  if (process.platform === 'darwin' || !tray) {
     return;
   }
 
-  const icon = shouldDisplayUnread ? "IconTrayUnread.png" : "IconTray.png";
+  const icon = shouldDisplayUnread ? 'IconTrayUnread.png' : 'IconTray.png';
   const iconPath = path.join(__dirname, `static/${icon}`);
   tray.setImage(iconPath);
 };
