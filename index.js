@@ -6,6 +6,7 @@ const electron = require('electron');
 const log = require('electron-log');
 const {autoUpdater} = require('electron-updater');
 const isDev = require('electron-is-dev');
+const electronDl = require('electron-dl');
 const appMenu = require('./menu');
 const config = require('./config');
 const tray = require('./tray');
@@ -13,9 +14,10 @@ const tray = require('./tray');
 require('electron-debug')({
   enabled: true
 });
-const electronDl = require('electron-dl');
-electronDl({ saveAs: true });
+
 require('electron-context-menu')();
+
+electronDl({saveAs: true});
 
 const {app, ipcMain} = electron;
 
@@ -197,8 +199,8 @@ app.on('ready', () => {
       electronDl.download(electron.BrowserWindow.getFocusedWindow(), url, {
         saveAs: true
       });
-      /*} else if (false){
-      electron.shell.openExternal(url);*/
+      /* } else if (false){
+      electron.shell.openExternal(url); */
     } else {
       const win = new electron.BrowserWindow({
         title: app.getName(),
