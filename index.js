@@ -191,11 +191,11 @@ app.on('ready', () => {
   webContents.on('new-window', (event, url) => {
     event.preventDefault();
     if (
-      url.indexOf('itslearning.com/File') !== -1 ||
-      url.indexOf('itslearning.com/ContentArea') !== -1
+      url.indexOf('itslearning.com/File') > -1 ||
+      url.indexOf('itslearning.com/ContentArea') > -1
     ) {
       webContents.loadURL(url);
-    } else if (url.indexOf('itslearning.com/file/download') !== -1) {
+    } else if (url.indexOf('itslearning.com/file/download') > -1) {
       electronDl.download(electron.BrowserWindow.getFocusedWindow(), url, {
         saveAs: true
       });
