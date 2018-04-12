@@ -21,7 +21,7 @@ body {
 }
 
 /* Bind the toolbar as the window's draggable region */
-#l-header, body.itsl-login, body#feide\:login {
+#l-header, body.itsl-welcome, body.itsl-login, body#feide\:login {
 	-webkit-app-region: drag;
 }
 
@@ -35,13 +35,17 @@ body.itsl-login>form {
 	margin-top: 40px;
 }
 
+body.itsl-welcome .l-countries-area {
+	display:none;
+}
+
 /* macOS: Move the navigation menu so it's not obstructed by the native traffic lights */
 .os-darwin .l-main-menu, .os-darwin #mainMoreMenu {
 	margin-left: 53px;
 }
 
 /* Exclude from drag */
-a, ul.l-main-menu-items li, ul.l-personal-menu-items li, body.itsl-login form div, body#feide\:login .main, body#feide\:login .expandable, body#feide\:login #privacy_policy, body#feide\:login .topbar #languagebar, body#feide\:login .topbar #languageSelector {
+a, ul.l-main-menu-items li, ul.l-personal-menu-items li, body.itsl-welcome .choose-site-box, body.itsl-welcome .l-login-links li, body.itsl-welcome .l-loginchoice .l-languagelist > span, body.itsl-login form div, body#feide\:login .main, body#feide\:login .expandable, body#feide\:login #privacy_policy, body#feide\:login .topbar #languagebar, body#feide\:login .topbar #languageSelector {
 	-webkit-app-region: no-drag;
 	-webkit-user-drag: none;
 }
