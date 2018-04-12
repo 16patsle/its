@@ -11,7 +11,7 @@ const config = require('./config');
 const tray = require('./tray');
 
 require('electron-debug')({
-  enabled: true,
+  enabled: true
 });
 require('electron-dl')();
 require('electron-context-menu')();
@@ -109,15 +109,14 @@ function createMainWindow() {
     minWidth: 400,
     minHeight: 200,
     alwaysOnTop: config.get('alwaysOnTop'),
-    // Temp workaround for macOS High Sierra, see #295
     titleBarStyle: 'hidden-inset',
     autoHideMenuBar: config.get('autoHideMenuBar'),
     webPreferences: {
       preload: path.join(__dirname, 'browser.js'),
       nodeIntegration: false,
-      plugins: true,
+      plugins: true
     },
-    backgroundColor: '#f2f2f2',
+    backgroundColor: '#f2f2f2'
   });
 
   if (process.platform === 'darwin') {
@@ -186,9 +185,9 @@ app.on('ready', () => {
       webPreferences: {
         preload: path.join(__dirname, 'browser.js'),
         nodeIntegration: false,
-        plugins: true,
+        plugins: true
       },
-      backgroundColor: '#ffffff',
+      backgroundColor: '#ffffff'
     });
     win.loadURL(url);
     event.newGuest = win;

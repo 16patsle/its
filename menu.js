@@ -19,8 +19,8 @@ function sendAction(action) {
 
 const viewSubmenu = [
   {
-    type: 'separator',
-  },
+    type: 'separator'
+  }
 ];
 
 const helpSubmenu = [
@@ -28,13 +28,13 @@ const helpSubmenu = [
     label: `Website`,
     click() {
       shell.openExternal('https://github.com/16patsle/its');
-    },
+    }
   },
   {
     label: `Source Code`,
     click() {
       shell.openExternal('https://github.com/16patsle/its');
-    },
+    }
   },
   {
     label: 'Report an Issue…',
@@ -54,14 +54,14 @@ ${process.platform} ${process.arch} ${os.release()}`;
           body
         )}`
       );
-    },
-  },
+    }
+  }
 ];
 
 if (process.platform !== 'darwin') {
   helpSubmenu.push(
     {
-      type: 'separator',
+      type: 'separator'
     },
     {
       role: 'about',
@@ -70,15 +70,15 @@ if (process.platform !== 'darwin') {
           title: `About ${appName}`,
           message: `${appName} ${app.getVersion()}`,
           detail: 'Created by Patrick Sletvold',
-          icon: path.join(__dirname, 'static/Icon.png'),
+          icon: path.join(__dirname, 'static/Icon.png')
         });
-      },
+      }
     }
   );
 
   viewSubmenu.push(
     {
-      type: 'separator',
+      type: 'separator'
     },
     {
       type: 'checkbox',
@@ -88,7 +88,7 @@ if (process.platform !== 'darwin') {
       click(item, focusedWindow) {
         config.set('alwaysOnTop', item.checked);
         focusedWindow.setAlwaysOnTop(item.checked);
-      },
+      }
     }
   );
 }
@@ -98,10 +98,10 @@ const macosTpl = [
     label: appName,
     submenu: [
       {
-        role: 'about',
+        role: 'about'
       },
       {
-        type: 'separator',
+        type: 'separator'
       },
       {
         label: 'Bounce Dock on Message',
@@ -109,7 +109,7 @@ const macosTpl = [
         checked: config.get('bounceDockOnMessage'),
         click() {
           config.set('bounceDockOnMessage', !config.get('bounceDockOnMessage'));
-        },
+        }
       },
       {
         label: 'Show Unread Badge',
@@ -117,78 +117,78 @@ const macosTpl = [
         checked: config.get('showUnreadBadge'),
         click() {
           config.set('showUnreadBadge', !config.get('showUnreadBadge'));
-        },
+        }
       },
       {
-        type: 'separator',
+        type: 'separator'
       },
       {
         label: 'Log Out',
         click() {
           sendAction('log-out');
-        },
+        }
       },
       {
-        type: 'separator',
+        type: 'separator'
       },
       {
         role: 'services',
-        submenu: [],
+        submenu: []
       },
       {
-        type: 'separator',
+        type: 'separator'
       },
       {
-        role: 'hide',
+        role: 'hide'
       },
       {
-        role: 'hideothers',
+        role: 'hideothers'
       },
       {
-        role: 'unhide',
+        role: 'unhide'
       },
       {
-        type: 'separator',
+        type: 'separator'
       },
       {
-        role: 'quit',
-      },
-    ],
+        role: 'quit'
+      }
+    ]
   },
   {
     label: 'File',
-    submenu: [],
+    submenu: []
   },
   {
-    role: 'editMenu',
+    role: 'editMenu'
   },
   {
     label: 'View',
-    submenu: viewSubmenu,
+    submenu: viewSubmenu
   },
   {
     role: 'window',
     submenu: [
       {
-        role: 'minimize',
+        role: 'minimize'
       },
       {
-        role: 'close',
+        role: 'close'
       },
       {
-        type: 'separator',
+        type: 'separator'
       },
       {
-        type: 'separator',
+        type: 'separator'
       },
       {
-        role: 'front',
+        role: 'front'
       },
       {
-        role: 'togglefullscreen',
+        role: 'togglefullscreen'
       },
       {
-        type: 'separator',
+        type: 'separator'
       },
       {
         type: 'checkbox',
@@ -198,14 +198,14 @@ const macosTpl = [
         click(item, focusedWindow) {
           config.set('alwaysOnTop', item.checked);
           focusedWindow.setAlwaysOnTop(item.checked);
-        },
-      },
-    ],
+        }
+      }
+    ]
   },
   {
     role: 'help',
-    submenu: helpSubmenu,
-  },
+    submenu: helpSubmenu
+  }
 ];
 
 const otherTpl = [
@@ -219,7 +219,7 @@ const otherTpl = [
         checked: config.get('flashWindowOnMessage'),
         click(item) {
           config.set('flashWindowOnMessage', item.checked);
-        },
+        }
       },
       {
         label: 'Show Unread Badge',
@@ -227,7 +227,7 @@ const otherTpl = [
         checked: config.get('showUnreadBadge'),
         click() {
           config.set('showUnreadBadge', !config.get('showUnreadBadge'));
-        },
+        }
       },
       {
         label: 'Launch Minimized',
@@ -235,7 +235,7 @@ const otherTpl = [
         checked: config.get('launchMinimized'),
         click() {
           config.set('launchMinimized', !config.get('launchMinimized'));
-        },
+        }
       },
       {
         type: 'checkbox',
@@ -245,68 +245,68 @@ const otherTpl = [
           config.set('autoHideMenuBar', item.checked);
           focusedWindow.setAutoHideMenuBar(item.checked);
           focusedWindow.setMenuBarVisibility(!item.checked);
-        },
+        }
       },
       {
-        type: 'separator',
+        type: 'separator'
       },
       {
         label: 'Log Out',
         click() {
           sendAction('log-out');
-        },
+        }
       },
       {
-        type: 'separator',
+        type: 'separator'
       },
       {
-        role: 'quit',
-      },
-    ],
+        role: 'quit'
+      }
+    ]
   },
   {
     label: 'Edit',
     submenu: [
       {
-        role: 'undo',
+        role: 'undo'
       },
       {
-        role: 'redo',
+        role: 'redo'
       },
       {
-        type: 'separator',
+        type: 'separator'
       },
       {
-        role: 'cut',
+        role: 'cut'
       },
       {
-        role: 'copy',
+        role: 'copy'
       },
       {
-        role: 'paste',
+        role: 'paste'
       },
       {
-        role: 'delete',
+        role: 'delete'
       },
       {
-        type: 'separator',
+        type: 'separator'
       },
       {
-        role: 'selectall',
+        role: 'selectall'
       },
       {
-        type: 'separator',
-      },
-    ],
+        type: 'separator'
+      }
+    ]
   },
   {
     label: 'View',
-    submenu: viewSubmenu,
+    submenu: viewSubmenu
   },
   {
     role: 'help',
-    submenu: helpSubmenu,
-  },
+    submenu: helpSubmenu
+  }
 ];
 
 const tpl = process.platform === 'darwin' ? macosTpl : otherTpl;

@@ -5,7 +5,7 @@ module.exports = new Store({
   defaults: {
     lastWindowState: {
       width: 800,
-      height: 600,
+      height: 600
     },
     alwaysOnTop: false,
     bounceDockOnMessage: false,
@@ -13,5 +13,5 @@ module.exports = new Store({
     launchMinimized: false,
     flashWindowOnMessage: true,
     autoHideMenuBar: false,
-  },
+  }
 });

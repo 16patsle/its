@@ -25,14 +25,14 @@ exports.create = win => {
       label: 'Toggle',
       click() {
         toggleWin();
-      },
+      }
     },
     {
-      type: 'separator',
+      type: 'separator'
     },
     {
-      role: 'quit',
-    },
+      role: 'quit'
+    }
   ]);
 
   tray = new electron.Tray(iconPath);

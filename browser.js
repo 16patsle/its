@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (messageBadge) {
     const messageObserver = new MutationObserver(messageBadgeCallback);
     messageObserver.observe(messageBadge, {
-      childList: true,
+      childList: true
     });
   }
   if (notificationBadge) {
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
       notificationBadgeCallback
     );
     notificationObserver.observe(notificationBadge, {
-      childList: true,
+      childList: true
     });
   }
 });
