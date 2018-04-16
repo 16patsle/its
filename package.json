@@ -54,12 +54,15 @@
     "appId": "com.patricksletvold.its",
     "mac": {
       "category": "public.app-category.social-networking",
-      "electronUpdaterCompatibility": ">=2.21.3"
+      "electronUpdaterCompatibility": ">=2.21.3",
+      "target": [
+        "dmg",
+        "zip"
+      ]
     },
     "dmg": {
       "iconSize": 160,
-      "contents": [
-        {
+      "contents": [{
           "x": 180,
           "y": 170
         },
