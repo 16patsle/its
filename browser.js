@@ -40,6 +40,17 @@ function messageBadgeCallback(mutationsList) {
     if (mutation.type === 'childList') {
       messageCount = Number(mutation.target.textContent);
       ipc.send('update-notification-badge', messageCount + notificationCount);
+    } else if (mutation.attributeName) {
+      if (mutation.target.classList.contains('h-displaynone')) {
+        messageCount = 0;
+        ipc.send('update-notification-badge', messageCount + notificationCount);
+      } else if (mutation.target.style.display === 'none') {
+        messageCount = 0;
+        ipc.send('update-notification-badge', messageCount + notificationCount);
+      } else {
+        messageCount = Number(mutation.target.textContent);
+        ipc.send('update-notification-badge', messageCount + notificationCount);
+      }
     }
   }
 }
@@ -49,6 +60,17 @@ function notificationBadgeCallback(mutationsList) {
     if (mutation.type === 'childList') {
       notificationCount = Number(mutation.target.textContent);
       ipc.send('update-notification-badge', messageCount + notificationCount);
+    } else if (mutation.attributeName) {
+      if (mutation.target.classList.contains('h-displaynone')) {
+        notificationCount = 0;
+        ipc.send('update-notification-badge', messageCount + notificationCount);
+      } else if (mutation.target.style.display === 'none') {
+        notificationCount = 0;
+        ipc.send('update-notification-badge', messageCount + notificationCount);
+      } else {
+        notificationCount = Number(mutation.target.textContent);
+        ipc.send('update-notification-badge', messageCount + notificationCount);
+      }
     }
   }
 }
@@ -67,7 +89,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (messageBadge) {
     const messageObserver = new MutationObserver(messageBadgeCallback);
     messageObserver.observe(messageBadge, {
-      childList: true
+      childList: true,
+      attributes: true,
+      attributeFilter: ['class', 'style']
     });
   }
   if (notificationBadge) {
@@ -75,7 +99,9 @@ document.addEventListener('DOMContentLoaded', () => {
       notificationBadgeCallback
     );
     notificationObserver.observe(notificationBadge, {
-      childList: true
+      childList: true,
+      attributes: true,
+      attributeFilter: ['class', 'style']
     });
   }
 });
