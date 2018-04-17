@@ -37,41 +37,29 @@ let notificationCount = 0;
 
 function messageBadgeCallback(mutationsList) {
   for (const mutation of mutationsList) {
-    if (mutation.type === 'childList') {
+    if (mutation.type === 'childList' || 'attributes') {
       messageCount = Number(mutation.target.textContent);
-      ipc.send('update-notification-badge', messageCount + notificationCount);
-    } else if (mutation.attributeName) {
       if (mutation.target.classList.contains('h-displaynone')) {
         messageCount = 0;
-        ipc.send('update-notification-badge', messageCount + notificationCount);
       } else if (mutation.target.style.display === 'none') {
         messageCount = 0;
-        ipc.send('update-notification-badge', messageCount + notificationCount);
-      } else {
-        messageCount = Number(mutation.target.textContent);
-        ipc.send('update-notification-badge', messageCount + notificationCount);
       }
     }
+    ipc.send('update-notification-badge', messageCount + notificationCount);
   }
 }
 
 function notificationBadgeCallback(mutationsList) {
   for (const mutation of mutationsList) {
-    if (mutation.type === 'childList') {
+    if (mutation.type === 'childList' || 'attributes') {
       notificationCount = Number(mutation.target.textContent);
-      ipc.send('update-notification-badge', messageCount + notificationCount);
-    } else if (mutation.attributeName) {
       if (mutation.target.classList.contains('h-displaynone')) {
         notificationCount = 0;
-        ipc.send('update-notification-badge', messageCount + notificationCount);
       } else if (mutation.target.style.display === 'none') {
         notificationCount = 0;
-        ipc.send('update-notification-badge', messageCount + notificationCount);
-      } else {
-        notificationCount = Number(mutation.target.textContent);
-        ipc.send('update-notification-badge', messageCount + notificationCount);
       }
     }
+    ipc.send('update-notification-badge', messageCount + notificationCount);
   }
 }
 
