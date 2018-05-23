@@ -34,8 +34,8 @@ body.itsl-welcome .l-countries-area {
 }
 
 /* macOS: Move the navigation menu so it's not obstructed by the native traffic lights */
-.os-darwin .l-main-menu,
-.os-darwin #mainMoreMenu {
+.os-darwin .l-main-menu:not(.h-is-mobile)/*,
+.os-darwin #mainMoreMenu*/ {
   margin-left: 53px;
 }
 
@@ -104,4 +104,46 @@ body#feide\:login .topbar #languageSelector {
 
 @media all and (max-width: 700px) {
   /* Compact mode */
+}
+
+@media all and (max-width: 569px) {
+  /* Compact mode */
+  .l-mobile-menu-icon a#mobileMenuLnk {
+    padding-top: 6px;
+    padding-bottom: 9px;
+  }
+  .l-mobile-main-menu-items .l-main-menu-lnk img.l-menu-icons {
+    padding: 1px;
+  }
+  .l-main-menu.h-is-mobile {
+    height: auto !important;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+  .l-mobile-main-menu-items .l-main-menu-dropdown {
+    position: relative;
+  }
+  .os-darwin .l-mobile-main-menu-items {
+    margin-left: 63px;
+  }
+  .os-darwin .l-mobile-main-menu-items .l-main-menu-dropdown {
+    margin-left: -63px;
+  }
+  .l-personal-menu {
+    z-index: 9;
+    position: absolute;
+    right: 0;
+  }
+  #personal-menu-dd {
+    margin-top: 89px;
+    margin-left: -284px;
+  }
+  .ccl-context-dialog.ccl-notification-popup {
+    margin-left: -260px;
+    width: 385px !important;
+  }
+  .ccl-context-dialog.ccl-notification-popup .ccl-context-dialog-arrow {
+    left: 275px !important;
+  }
 }
