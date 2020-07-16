@@ -30,7 +30,7 @@
     "facebook-locales": "^1.0.464"
   },
   "devDependencies": {
-    "electron": "^1.8.4",
+    "electron": "^9.1.0",
     "electron-builder": "^20.6.2",
     "xo": "*"
   },
